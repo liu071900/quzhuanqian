@@ -43,7 +43,7 @@ class BaseApiHandler(RequestHandler):
         
     async def prepare(self):
         # 1.连接数据库
-        await self.db_service.connect()
+        await self.db_objects.connect()
         # 
 
     def get_current_user(self):

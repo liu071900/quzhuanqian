@@ -28,7 +28,6 @@ class SignupHandler(BaseApiHandler):
         password = payload["password"]
         verifity_code = payload["verifity_code"]
         inviter_code = payload.get("inviter_code",None)
-
         # TODO 合法性校验
         code,message = await self.check_invild(phone,password,verifity_code,inviter_code)
         if not code == ResultCode.SUCCESS:

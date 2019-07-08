@@ -1,9 +1,9 @@
 from typing import Dict,Any
 
 
-class sessionData():
+class SessionData:
     """
-        session 类拓展用户信息
+        session 类拓展用户信息,其实就是以对象形式使用字典
     """
     def __init__(self):
         
@@ -15,4 +15,6 @@ class sessionData():
     def __getattr__(self,key) ->Any:
         return self._map.get(key,None)
 
-    
+class Session:
+    """
+    """
