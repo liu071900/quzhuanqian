@@ -22,7 +22,7 @@ class App(web.Application):
         **app_settings)
     def setup_db_manager(self,db_manager):
         """
-            引入 peewee-async 的 Manager 
+            引入 peewee-async 的 Manager。
         """
         self.db_manager = db_manager
 
