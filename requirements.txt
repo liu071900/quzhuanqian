@@ -1,0 +1,4 @@
+tornado=6.0.3
+peewee=3.9.6
+peewee_async
+aioredis=1.2.0
