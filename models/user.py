@@ -1,6 +1,6 @@
 import peewee
 from .base import BaseModel
-
+from datetime import datetime
 
 class User(BaseModel):
     """
@@ -9,15 +9,16 @@ class User(BaseModel):
     """
     # 唯一标识符
     user_id = peewee.IntegerField(null=False,unique=True,index=True)
+    # 用户名称 默认是手机号
     user_name = peewee.CharField(max_length=128,null=False)
     # 用户头像
-    avatar = peewee.CharField(max_length=128,null=False)
+    avatar = peewee.CharField(max_length=128,null=True)
     # 用户手机，用于登录账号
     phone = peewee.CharField(max_length=11,unique=True,index=True,null=False)
     # 用户密码
     password = peewee.CharField(max_length=255,null=False)
     #加入日期
-    join_date = peewee.DateField(null=False,index=True)
+    join_date = peewee.DateField(null=False,index=True,default= datetime.today())
     # 用户等级
     user_level = peewee.IntegerField(default=0)
     # 微信账号，用于提现
@@ -25,11 +26,11 @@ class User(BaseModel):
     # 支付宝账号，用于提现
     zhifubao = peewee.CharField(max_length=256,null=True)
     # 一级邀请人
-    inviter1 = peewee.IntegerField(null=True) 
+    inviter1 = peewee.IntegerField(null=True,default=0) 
     # 二级邀请人
     inviter2 = peewee.IntegerField(null=True)
     is_active = peewee.BooleanField(default=True)
-
+    
     class Meta:
         table_name = 'base_user'
 

@@ -6,8 +6,11 @@ from handles.base import BaseApiHandler
 
 from peewee import DoesNotExist
 from models.user import User
+from models.base import UserId
 
 from exceptions import ResultCode
+
+
 
 class SignupHandler(BaseApiHandler):
     """
@@ -32,11 +35,24 @@ class SignupHandler(BaseApiHandler):
         code,message = await self.check_invild(phone,password,verifity_code,inviter_code)
         if not code == ResultCode.SUCCESS:
             return self.respond_json({},code=code,message=message)
-        # 生成一个 user
-        
 
+        new_user_info = dict(
+            user_id = await self.make_user_id(),
+            user_name = '用户-' + str(phone),
+            # TODO 用户头像默认值
+            avatar = '',
+            phone = phone,
+            password = self.make_password(password),
+            inviter1 = inviter_code if inviter_code else 0,
+            inviter2 = await self.get_inviter2(inviter_code),
+        )
+
+        # 生成一个 user
+        pk = await self.db_objects.create(User,**new_user_info)
         # 3.加入默认社区
+
         self.respond_json({})
+
 
     async def check_invild(self,phone:int,password:str,verifity_code:int,inviter_code:int = None) -> tuple:
         """
@@ -62,7 +78,32 @@ class SignupHandler(BaseApiHandler):
         #     return (code,message)
 
         return (code,message)
-        
+    
+    async def make_user_id(self):
+        """
+            生成 user_id的规则，是向UserId插入一条数据，并取得返回的id，作为user_id
+        """
+        uid = await self.db_objects.create(UserId)
+        return uid 
+    
+    def make_password(self,raw:str)->str:
+        # TODO 加密密码
+
+        return raw 
+
+    async def get_inviter2(self,inviter1):
+        """
+            二级邀请人，
+        """
+        if not inviter1:
+            return 0
+        try:
+            inviter2 = await self.db_objects.get(User,user_id=inviter1)
+        except DoesNotExist:
+            inviter2 = 0
+        return inviter2
+
+    
 
 class LoginHandler(BaseApiHandler):
     """

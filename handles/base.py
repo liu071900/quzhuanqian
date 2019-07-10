@@ -1,7 +1,6 @@
 """
     http 处理类 的基类，
     后续所有的通用处理 必须继承 BaseApiHandler 或者 BaseViewHandler
-
 """
 
 import json
