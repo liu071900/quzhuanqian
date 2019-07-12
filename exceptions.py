@@ -1,7 +1,6 @@
 from tornado.web import HTTPError
 
 
-
 # http error code
 
 class ResultCode:
@@ -15,13 +14,14 @@ class ResultCode:
     # 普通错误
     ERROR = "1"
     # 注册类错误
-    SIGIN_ERROR = "2"
+    SIG_IN_ERROR = "2"
     # 登陆类错误
     LOGIN_ERROR = "3"
 
     @staticmethod
-    def join_code(pre_code:str,detail_code:str =None) ->str:
+    def join_code(pre_code: str, detail_code: str = None) ->str:
         if detail_code:
-            return pre_code + "."+ detail_code
+            return pre_code + "." + detail_code
         else:
             return pre_code
+

@@ -4,20 +4,18 @@
 
 import models
 import peewee
-
-attrs_list = dir(models)
-tables:list = list()
-
-for attr in attrs_list:
-    m = getattr(models,attr)
-    if isinstance(m,peewee.ModelBase):
-        tables.append(m)
-
 from settings import DATA_BASE
 
+attrs_list = dir(models)
+tables: list = list()
 
+for attr in attrs_list:
+    m = getattr(models, attr)
+    if isinstance(m, peewee.ModelBase):
+        tables.append(m)
+
+# 创建表
 DATA_BASE.create_tables(tables)
 
-#初始化 InvitationCode
-
+# 初始化 InvitationCode
 DATA_BASE.close()

@@ -16,6 +16,7 @@ db_manager = Manager(database=DATA_BASE,loop =loop)
 db_manager.database.allow_sync = False
 # InvitationCode 生成一些数据
 
+
 class InvitationCode(peewee.Model):
     """
         用户邀请码，需要事先生成，邀请码为6位随机数，邀请码同时作为userId

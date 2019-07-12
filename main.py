@@ -1,36 +1,34 @@
 import asyncio
 from tornado import web
-from tornado import ioloop
-from tornado import locks
 from tornado.platform.asyncio import AsyncIOMainLoop
-from tornado.options import options,define
+from tornado.options import options, define
 
 
 from urls import routes
-from settings import app_settings,DATA_BASE
+from settings import app_settings, DATA_BASE
 
 from peewee_async import Manager
 
-options.define('port',default=8000,type=int,help="监听的端口号")
+options.define('port', default=8000, type=int, help="监听的端口号")
 
 
 class App(web.Application):
     def __init__(self) -> None:
-        super(App,self).__init__(routes, 
-        default_host = None,
-        transforms=None,
-        **app_settings)
+        super(App, self).__init__(routes, default_host=None, transforms=None, **app_settings)
+        self.db_manager = None
+
     def setup_db_manager(self,db_manager):
         """
             引入 peewee-async 的 Manager。
         """
         self.db_manager = db_manager
 
-def main(port:int= None) ->None:
+
+def main() ->None:
     # 必须明确指出 使用 asyncio 事件循环，不知道是不是 只有windows下才需要明确指出
     AsyncIOMainLoop().install()
     loop = asyncio.get_event_loop()
-    #print(dir(loop))
+    # print(dir(loop))
     app = App()
     db_manager = Manager(database=DATA_BASE,loop =loop)
     db_manager.database.allow_sync = False
@@ -52,4 +50,3 @@ if __name__ == "__main__":
 
     # TODO 生产环境不能这么搞
     main()
-    

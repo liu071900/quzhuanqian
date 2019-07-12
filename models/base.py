@@ -6,16 +6,16 @@ from settings import DATA_BASE
 #database = peewee.MySQLDatabase(None)
 # when run set: database.init(database_name, host='localhost', user='mysql')
 
+
 class BaseModel(peewee.Model):
     """
         基础模型，所有的模型需要继承此模型
     """
-    create_time = peewee.DateTimeField(default=datetime.now())
+    create_time = peewee.DateTimeField(default=datetime.now)
     update_time = peewee.DateTimeField(default=datetime.now)
 
     class Meta:
         database = DATA_BASE
-
 
 
 class UserId(peewee.Model):
@@ -25,9 +25,11 @@ class UserId(peewee.Model):
     """
     # 主键
     uid = peewee.AutoField()
-    create_time = peewee.DateTimeField(default=datetime.now())
+    create_time = peewee.DateTimeField(default=datetime.now)
+
     class Meta:
         database = DATA_BASE
+
 
 class GroupId(peewee.Model):
     """
@@ -36,8 +38,10 @@ class GroupId(peewee.Model):
     # 主键
     uid = peewee.AutoField()
     create_time = peewee.DateTimeField(default=datetime.now())
+
     class Meta:
         database = DATA_BASE
+
 
 class Session(peewee.Model):
     """
